@@ -1,0 +1,204 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+template:
+
+  - sensor:
+    # Stromzähler Verbrauch
+    #- name: SmartHome_Energy
+    #unique_id: StromVerbrauch1234
+    #unit_of_measurement: kWh
+    #state_class: total_increasing
+    #state_class: measurement
+    #device_class: energy    
+    #source: sensor.tasmota_obis_total_in
+    #state: "{{ states('sensor.tasmota_obis_total_in') | float | round(0) }}"
+    - name: SmartHome_Energy
+      unique_id: "mains_consumed_energy"
+      icon: mdi:gauge-full
+      state: "{{ (states('sensor.tasmota_obis_total_in')|default(0)|float) }}"
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      #last_reset: 2023-04-08T15:00:00
+  - sensor:
+    # Stromzähler Verbrauch
+    #- name: SmartHome_Energy
+    #unique_id: StromVerbrauch1234
+    #unit_of_measurement: kWh
+    #state_class: total_increasing
+    #state_class: measurement
+    #device_class: energy    
+    #source: sensor.tasmota_obis_total_in
+    #state: "{{ states('sensor.tasmota_obis_total_in') | float | round(0) }}"
+    - name: SmartHome_Gas
+      unique_id: "mains_consumed_gas"
+      icon: mdi:gauge-full
+      state: "{{ (states('sensor.tasmota_counter_c1')|default(0)|float) / 100 }}"
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      
+  - sensor:
+    # Stromzähler Verbrauch
+    - name: SmartHome_Energy_W
+      unique_id: "mains_consumed_enrgy_W"
+      icon: mdi:gauge-full
+      state: "{{ (states('sensor.tasmota_obis_power_cur')|default(0)|float) }}"
+      unit_of_measurement: "W"
+      device_class: energy
+      state_class: total_increasing      
+     
+mqtt:
+  cover:
+    - name: "shutter_WZ_links"
+      unique_id: "shutter_01"
+      command_topic: "cmnd/shutter/blinddir01"
+      state_topic: "stat/shutter/blinddir01"
+      position_topic: "stat/shutter/blindpos01"
+      #availability:
+      #  - topic: "tele/shutter/LWT"
+      #set_position_topic: "home-assistant/cover/set_position"
+      qos: 0
+      retain: true
+      payload_open: "UP"
+      payload_close: "DOWN"
+      payload_stop: "STOP"
+      state_opening: "UP"
+      state_closed: "DOWN"
+      state_stopped: "STOP"
+      position_open: 0
+      position_closed: 100     
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      optimistic: false
+      value_template: "{{ value.x }}"
+      position_template: "{{ value.y }}"
+    - name: "shutter_WZ_rechts"
+      unique_id: "shutter_02"
+      command_topic: "cmnd/shutter/blinddir02"
+      state_topic: "stat/shutter/blinddir02"
+      position_topic: "stat/shutter/blindpos02"
+      #availability:
+      #  - topic: "tele/shutter/LWT"
+      #set_position_topic: "home-assistant/cover/set_position"
+      qos: 0
+      retain: true
+      payload_open: "UP"
+      payload_close: "DOWN"
+      payload_stop: "STOP"
+      state_opening: "UP"
+      state_closed: "DOWN"
+      state_stopped: "STOP"
+      position_open: 0
+      position_closed: 100     
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      optimistic: false
+      value_template: "{{ value.x }}"
+      position_template: "{{ value.y }}"
+    - name: "shutter_EZ_links"
+      unique_id: "shutter_03"
+      command_topic: "cmnd/shutter/blinddir03"
+      state_topic: "stat/shutter/blinddir03"
+      position_topic: "stat/shutter/blindpos03"
+      #availability:
+      #  - topic: "tele/shutter/LWT"
+      #set_position_topic: "home-assistant/cover/set_position"
+      qos: 0
+      retain: true
+      payload_open: "UP"
+      payload_close: "DOWN"
+      payload_stop: "STOP"
+      state_opening: "UP"
+      state_closed: "DOWN"
+      state_stopped: "STOP"
+      position_open: 0
+      position_closed: 100     
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      optimistic: false
+      value_template: "{{ value.x }}"
+      position_template: "{{ value.y }}"
+    - name: "shutter_EZ_rechts"
+      unique_id: "shutter_04"
+      command_topic: "cmnd/shutter/blinddir04"
+      state_topic: "stat/shutter/blinddir04"
+      position_topic: "stat/shutter/blindpos04"
+      #availability:
+      #  - topic: "tele/shutter/LWT"
+      #set_position_topic: "home-assistant/cover/set_position"
+      qos: 0
+      retain: true
+      payload_open: "UP"
+      payload_close: "DOWN"
+      payload_stop: "STOP"
+      state_opening: "UP"
+      state_closed: "DOWN"
+      state_stopped: "STOP"
+      position_open: 0
+      position_closed: 100     
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      optimistic: false
+      value_template: "{{ value.x }}"
+      position_template: "{{ value.y }}"      
+    - name: "shutter_kitchen"
+      unique_id: "shutter_05"
+      command_topic: "cmnd/shutter/blinddir05"
+      state_topic: "stat/shutter/blinddir05"
+      position_topic: "stat/shutter/blindpos05"
+      #availability:
+      #  - topic: "tele/shutter/LWT"
+      #set_position_topic: "home-assistant/cover/set_position"
+      qos: 0
+      retain: true
+      payload_open: "UP"
+      payload_close: "DOWN"
+      payload_stop: "STOP"
+      state_opening: "UP"
+      state_closed: "DOWN"
+      state_stopped: "STOP"
+      position_open: 0
+      position_closed: 100     
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      optimistic: false
+      value_template: "{{ value.x }}"
+      position_template: "{{ value.y }}"
+    - name: "shutter_restroom"
+      unique_id: "shutter_06"
+      command_topic: "cmnd/shutter/blinddir06"
+      state_topic: "stat/shutter/blinddir06"
+      position_topic: "stat/shutter/blindpos06"
+      #availability:
+      #  - topic: "tele/shutter/LWT"
+      #set_position_topic: "home-assistant/cover/set_position"
+      qos: 0
+      retain: true
+      payload_open: "UP"
+      payload_close: "DOWN"
+      payload_stop: "STOP"
+      state_opening: "UP"
+      state_closed: "DOWN"
+      state_stopped: "STOP"
+      position_open: 0
+      position_closed: 100     
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      optimistic: false
+      value_template: "{{ value.x }}"
+      position_template: "{{ value.y }}"       
